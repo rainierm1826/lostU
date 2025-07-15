@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lostu/views/layout.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lostu/views/layout.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Layout()),
+                  MaterialPageRoute(builder: (context) => Layout(auth: true,)),
                 );
               },
               child: const Text("Sign In"),

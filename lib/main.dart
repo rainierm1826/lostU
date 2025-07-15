@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lostu/firebase_options.dart';
 import 'package:lostu/views/data/constants.dart';
-import 'package:lostu/views/pages/login_page.dart';
+import 'package:lostu/views/layout.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: redWhiteTheme,
-      home: LoginPage(),
+      home: Layout(),
     );
   }
 }

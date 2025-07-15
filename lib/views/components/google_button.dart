@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lostu/services/auth_service.dart';
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final GoogleAuthService authService = GoogleAuthService();
+
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        await authService.signInWithGoogle();
+      },
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,

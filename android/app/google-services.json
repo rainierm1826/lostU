@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "899213709947",
+    "project_id": "lostu-f68cb",
+    "storage_bucket": "lostu-f68cb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899213709947:android:337a667f096279041e48de",
+        "android_client_info": {
+          "package_name": "com.example.lostu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899213709947-2tfqj8u9fekp2dtej3o8gnlndhsnl194.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lostu",
+            "certificate_hash": "fa4b18a57f7233ed7b4674b464b509ccf8fde007"
+          }
+        },
+        {
+          "client_id": "899213709947-l891nob0tun4f9jhub1b7cqsvquu7lsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVpop9Mrje0KpECxwCiA7GsXbptdok5WI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899213709947-l891nob0tun4f9jhub1b7cqsvquu7lsq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "899213709947-m3e905qa7aosmk25fpt57rqf2oao1icc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lostu"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
