@@ -14,25 +14,28 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset("assets/images/bsu-bg.png", fit: BoxFit.cover),
-          ),
-          SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Center(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  "assets/images/bsu-bg.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     SizedBox(
                       height: 50,
                       width: 50,
                       child: Image.asset("assets/images/bsu-logo.png"),
                     ),
-                    Text(
+                    const Text(
                       "LostU",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -40,8 +43,8 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: "Merriweather",
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
                       child: Text(
                         "Sign in to access your student portal and stay \n connected with Batangas State University.",
                         style: TextStyle(
@@ -51,19 +54,19 @@ class _LoginPageState extends State<LoginPage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
+                    const SizedBox(height: 30),
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
                       child: LoginForm(),
                     ),
-                    OrDivider(),
-                    GoogleButton(),
+                    const OrDivider(),
+                    const GoogleButton(),
                   ],
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

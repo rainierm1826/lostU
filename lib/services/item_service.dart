@@ -1,0 +1,44 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+
+Future<Uint8List?> compressImage(Uint8List imageBytes) async {
+  final compressedBytes = await FlutterImageCompress.compressWithList(
+    imageBytes,
+    quality: 50,
+    format: CompressFormat.jpeg,
+  );
+  return compressedBytes;
+}
+
+Future<void> addLostItem({
+  required String lostItemName,
+  required String locationFound,
+  required String itemType,
+  required String dateItemFound,
+  required String userID,
+  required String displayName,
+  required Uint8List? imageBytes,
+}) async {
+  String? base64Image;
+
+  if (imageBytes != null) {
+    final compressed = await compressImage(imageBytes);
+    if (compressed != null) {
+      base64Image = base64Encode(compressed);
+    }
+  }
+
+  await FirebaseFirestore.instance.collection('item').add({
+    'lostItemName': lostItemName,
+    'locationFound': locationFound,
+    'itemType': itemType,
+    'dateItemFound': dateItemFound,
+    'userID': userID,
+    'displayName': displayName,
+    'timestamp': FieldValue.serverTimestamp(),
+    'imageBase64': base64Image,
+    'status': false,
+  });
+}

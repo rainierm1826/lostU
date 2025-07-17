@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lostu/services/auth_service.dart';
+import 'package:lostu/services/user_provider.dart';
+import 'package:lostu/views/components/activity_list.dart';
+import 'package:lostu/views/components/claim_activity.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -7,6 +11,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GoogleAuthService authService = GoogleAuthService();
+    final user = Provider.of<UserProvider>(context).user;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return SingleChildScrollView(
       child: Padding(
@@ -18,12 +24,14 @@ class ProfilePage extends StatelessWidget {
               CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(
-                  authService.currentUser?.photoURL ?? "",
+                  authService.currentUser?.photoURL ?? user["photoURL"] ?? "",
                 ),
               ),
               SizedBox(height: 16),
               Text(
-                authService.currentUser?.displayName ?? '',
+                authService.currentUser?.displayName ??
+                    user["displayName"] ??
+                    "",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -31,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               Text(
-                authService.currentUser?.email ?? '',
+                authService.currentUser?.email ?? user["email"] ?? "",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
@@ -42,9 +50,14 @@ class ProfilePage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   await authService.signOut();
+                  userProvider.setUser(null);
                 },
                 child: Text("Sign Out"),
               ),
+              SizedBox(height: 24),
+              ActivityList(),
+              SizedBox(height: 24),
+              ClaimActivity(),
             ],
           ),
         ),
