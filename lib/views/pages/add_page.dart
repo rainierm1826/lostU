@@ -17,6 +17,7 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   final TextEditingController _lostItemNameController = TextEditingController();
+  final ItemService _itemService = ItemService();
   final TextEditingController _locationFoundController =
       TextEditingController();
   final TextEditingController _dateTimeController = TextEditingController();
@@ -241,7 +242,7 @@ class _AddPageState extends State<AddPage> {
 
                     try {
                       setState(() => _isAdding = true);
-                      await addLostItem(
+                      await _itemService.addLostItem(
                         lostItemName: _lostItemNameController.text.trim(),
                         locationFound: _locationFoundController.text.trim(),
                         itemType: _selectedTypeController ?? 'Others',

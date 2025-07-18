@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lostu/views/pages/add_page.dart';
-import 'package:lostu/views/pages/admin_items_page.dart';
+import 'package:lostu/views/pages/admin_item_list.dart';
+import 'package:lostu/views/pages/admin_profile_page.dart';
 import 'package:lostu/views/pages/dashboard_page.dart';
 import 'package:lostu/views/pages/home_page.dart';
 import 'package:lostu/views/pages/profile_page.dart';
@@ -18,10 +19,10 @@ const List<Widget> adminNavbarIcon = [
   Icon(Icons.person, size: 30, color: Colors.white),
 ];
 const List<Widget> pages = [AddPage(), HomePage(), ProfilePage()];
-const List<Widget> adminPages = [
-  AdminItemsPage(),
+final List<Widget> adminPages = [
+  const AdminItemList(),
   DashboardPage(),
-  ProfilePage(),
+  const AdminProfilePage(),
 ];
 
 final ThemeData redWhiteTheme = ThemeData(
