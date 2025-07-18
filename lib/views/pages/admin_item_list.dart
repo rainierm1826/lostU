@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:lostu/functions/string.dart';
 import 'package:lostu/services/item_service.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:lostu/views/components/claim_request_list.dart';
 
 class AdminItemList extends StatefulWidget {
   const AdminItemList({super.key});
@@ -66,6 +67,8 @@ class _AdminItemListState extends State<AdminItemList> {
                 ),
               ),
             ),
+            SizedBox(height: 24),
+            ClaimRequestList(),
             SizedBox(height: 24),
             Text(
               "Item List",
@@ -217,31 +220,6 @@ class _AdminItemListState extends State<AdminItemList> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Colors.blue,
-                                        ),
-                                        onPressed: () {
-                                          AwesomeDialog(
-                                            context: context,
-                                            dialogType: DialogType.info,
-                                            title: 'Edit Item Status',
-                                            desc: 'Edit item status',
-                                            btnOkOnPress: () {
-                                              itemService.updateItemStatus(
-                                                docId,
-                                                !data['status'],
-                                              );
-                                              setState(() {
-                                                data['status'] =
-                                                    !data['status'];
-                                              });
-                                            },
-                                            btnCancelOnPress: () {},
-                                          ).show();
-                                        },
-                                      ),
                                       SizedBox(width: 10),
                                       IconButton(
                                         icon: Icon(

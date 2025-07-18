@@ -127,6 +127,7 @@ class ClaimCard extends StatefulWidget {
 
 class _ClaimCardState extends State<ClaimCard> {
   bool _isClaiming = false;
+  final ClaimService claimService = ClaimService();
 
   @override
   Widget build(BuildContext context) {
@@ -210,12 +211,13 @@ class _ClaimCardState extends State<ClaimCard> {
 
                               setState(() => _isClaiming = true);
                               try {
-                                await claimLostItem(
+                                await claimService.claimLostItem(
                                   widget.userID,
                                   widget.itemID,
                                 );
                                 if (mounted) {
                                   AwesomeDialog(
+                                    // ignore: use_build_context_synchronously
                                     context: context,
                                     dialogType: DialogType.info,
                                     animType: AnimType.scale,

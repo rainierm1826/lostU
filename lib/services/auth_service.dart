@@ -1,6 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lostu/views/data/users.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,7 +14,22 @@ class GoogleAuthService {
   Map<String, dynamic>? validateUser(String srCode, String password) {
     for (var user in users) {
       if (user['srCode'] == srCode && user['password'] == password) {
-        return user; 
+        final userDoc = FirebaseFirestore.instance
+            .collection('users')
+            .doc(user['id']);
+        userDoc.get().then((docSnapshot) {
+          if (!docSnapshot.exists) {
+            userDoc.set({
+              'displayName': user['displayName'],
+              'photoURL': user['photoURL'],
+              'email': user['email'],
+              'role': user['role'],
+              'srCode': user['srCode'],
+              'id': user['id'],
+            });
+          }
+        });
+        return user;
       }
     }
     return null;
@@ -31,7 +47,24 @@ class GoogleAuthService {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      return await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      // Store user info in Firestore if not already present
+      final user = userCredential.user;
+      if (user != null) {
+        final userDoc = FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid);
+        final docSnapshot = await userDoc.get();
+        if (!docSnapshot.exists) {
+          await userDoc.set({
+            'displayName': user.displayName,
+            'photoURL': user.photoURL,
+            'email': user.email,
+          });
+        }
+      }
+      return userCredential;
     } catch (e) {
       return null;
     }

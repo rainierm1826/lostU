@@ -136,8 +136,9 @@ class DashboardPage extends StatelessWidget {
                               interval: 1.0,
                               getTitlesWidget: (double value, TitleMeta meta) {
                                 final idx = value.toInt();
-                                if (idx < 0 || idx >= top5.length)
+                                if (idx < 0 || idx >= top5.length) {
                                   return const SizedBox();
+                                }
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
@@ -250,8 +251,9 @@ class DashboardPage extends StatelessWidget {
                               interval: 1.0,
                               getTitlesWidget: (double value, TitleMeta meta) {
                                 final idx = value.toInt();
-                                if (idx < 0 || idx >= top5.length)
+                                if (idx < 0 || idx >= top5.length) {
                                   return const SizedBox();
+                                }
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
@@ -330,7 +332,7 @@ class _DashboardCard extends StatelessWidget {
               Text(
                 value,
                 style: const TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),

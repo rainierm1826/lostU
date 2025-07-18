@@ -27,8 +27,14 @@ class _AddPageState extends State<AddPage> {
     'Wallet',
     'Phone',
     'Notebook',
-    'Others',
+    'Keys',
+    'Umbrella',
+    'Water Bottle',
+    'Earphones',
+    'Charger',
+    'Bag',
   ];
+
   String? _selectedTypeController;
   Uint8List? _imageBytes;
   bool _isAdding = false;
@@ -252,6 +258,7 @@ class _AddPageState extends State<AddPage> {
                         imageBytes: _imageBytes,
                       );
                       AwesomeDialog(
+                        // ignore: use_build_context_synchronously
                         context: context,
                         dialogType: DialogType.success,
                         animType: AnimType.scale,
