@@ -45,65 +45,63 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _srCode,
-              decoration: InputDecoration(
-                labelText: "SR-Code",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(FontAwesomeIcons.envelope),
-                hintText: "Enter your sr-code",
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.5),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _srCode,
+            decoration: InputDecoration(
+              labelText: "SR-Code",
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(FontAwesomeIcons.envelope),
+              hintText: "Enter your sr-code",
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 1.5),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Empty SR-Code';
+              }
+              if (value.length < 8) {
+                return 'Invalid SR-Code';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 24),
+          TextFormField(
+            obscureText: true,
+            controller: _password,
+            decoration: InputDecoration(
+              labelText: "Password",
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.lock),
+              hintText: "Enter your password",
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 1.5),
+              ),
+            ),
+          ),
+          SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Empty SR-Code';
-                }
-                if (value.length < 8) {
-                  return 'Invalid SR-Code';
-                }
-                return null;
+              onPressed: () {
+                _submitForm();
               },
+              child: const Text("Sign In"),
             ),
-            SizedBox(height: 24),
-            TextFormField(
-              obscureText: true,
-              controller: _password,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock),
-                hintText: "Enter your password",
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.5),
-                ),
-              ),
-            ),
-            SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-                onPressed: () {
-                  _submitForm();
-                },
-                child: const Text("Sign In"),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

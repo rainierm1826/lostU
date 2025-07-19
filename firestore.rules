@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user email is from allowed domain
+    function isAllowedDomain(email) {
+      return email.matches('.*@g\\.batstate-u\\.edu\\.ph');
+    }
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Users collection - only allow access to own user document or admin access
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && 
+        (request.auth.uid == userId || isAdmin());
+      
+      // Allow creation only if email domain is valid
+      allow create: if isAuthenticated() && 
+        request.auth.uid == userId &&
+        isAllowedDomain(resource.data.email);
+    }
+    
+    // Items collection - allow read for all authenticated users, write for item owner or admin
+    match /item/{itemId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+        request.auth.uid == resource.data.userID;
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userID == request.auth.uid || isAdmin());
+    }
+    
+    // Claims collection - allow read for all authenticated users, write for claimer or admin
+    match /claims/{claimId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+        request.auth.uid == resource.data.userID;
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userID == request.auth.uid || isAdmin());
+    }
+  }
+} 

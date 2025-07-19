@@ -9,6 +9,9 @@ class GoogleAuthService {
     scopes: <String>['email', 'profile'],
   );
 
+  // Allowed domain for Google Sign-In
+  static const String _allowedDomain = '@g.batstate-u.edu.ph';
+
   User? get currentUser => _auth.currentUser;
 
   Map<String, dynamic>? validateUser(String srCode, String password) {
@@ -35,12 +38,29 @@ class GoogleAuthService {
     return null;
   }
 
+  /// Validates if the email domain is allowed
+  bool _isEmailDomainAllowed(String? email) {
+    if (email == null) return false;
+    return email.toLowerCase().endsWith(_allowedDomain.toLowerCase());
+  }
+
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         return null;
       }
+
+      // Check email domain before proceeding with authentication
+      if (!_isEmailDomainAllowed(googleUser.email)) {
+        // Sign out from Google to clear the selection
+        await _googleSignIn.signOut();
+        throw FirebaseAuthException(
+          code: 'invalid-email-domain',
+          message: 'Only @g.batstate-u.edu.ph email addresses are allowed.',
+        );
+      }
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -61,11 +81,17 @@ class GoogleAuthService {
             'displayName': user.displayName,
             'photoURL': user.photoURL,
             'email': user.email,
+            'role': 'user', // Default role for Google users
+            'signInMethod': 'google',
           });
         }
       }
       return userCredential;
     } catch (e) {
+      // Re-throw domain validation errors
+      if (e is FirebaseAuthException && e.code == 'invalid-email-domain') {
+        rethrow;
+      }
       return null;
     }
   }

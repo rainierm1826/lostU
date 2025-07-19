@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lostu/services/auth_service.dart';
 
 class GoogleButton extends StatelessWidget {
@@ -10,7 +11,55 @@ class GoogleButton extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        await authService.signInWithGoogle();
+        try {
+          final result = await authService.signInWithGoogle();
+          if (result != null) {
+            // Successfully signed in
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Successfully signed in!'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'invalid-email-domain') {
+            // Show domain restriction error
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Access denied. Only @g.batstate-u.edu.ph email addresses are allowed.',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 4),
+                action: SnackBarAction(
+                  label: 'OK',
+                  textColor: Colors.white,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  },
+                ),
+              ),
+            );
+          } else {
+            // Show other Firebase auth errors
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Sign in failed: ${e.message}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        } catch (e) {
+          // Show generic error
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Sign in failed. Please try again.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       },
       child: Container(
         alignment: Alignment.center,

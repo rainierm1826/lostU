@@ -116,12 +116,35 @@ class _ClaimActivityState extends State<ClaimActivity> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    itemName,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          itemName,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Badge(
+                                        label: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          child: Text(
+                                            stringClass.toCapitalize(
+                                              claimData['status'],
+                                            ),
+                                          ),
+                                        ),
+                                        backgroundColor:
+                                            claimData['status'] == 'claimed'
+                                            ? Colors.green
+                                            : Colors.red,
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
