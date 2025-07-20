@@ -142,6 +142,8 @@ class _ClaimActivityState extends State<ClaimActivity> {
                                         backgroundColor:
                                             claimData['status'] == 'claimed'
                                             ? Colors.green
+                                            : claimData['status'] == 'pending'
+                                            ? Colors.grey
                                             : Colors.red,
                                       ),
                                     ],
